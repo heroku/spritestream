@@ -78,12 +78,9 @@ npm run test-server
 
 ## Credits
 
-The lovely icons used by the test suite are:
-
-- Watch designed by [Edward Boatman][boatman] from the [thenounproject.com][nounproject]
-- Breakfast designed by [Edward Boatman][boatman] from the [thenounproject.com][nounproject]
-- Sketchbook designed by [Edward Boatman][boatman] from the [thenounproject.com][nounproject]
-- Twinkie designed by [Edward Boatman][boatman] from the [thenounproject.com][nounproject]
+The icons used in the test suite—"Watch", "Breakfast", "Sketchbook", and
+"Twinkie"—were designed by [Edward Boatman][boatman] from
+[thenounproject.com][nounproject].
 
 [boatman]: http://www.thenounproject.com/edward
 [nounproject]: http://www.thenounproject.com/
