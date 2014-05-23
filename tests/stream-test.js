@@ -33,7 +33,7 @@ it('outputs the expected CSS file', function(done) {
   compile(null, function(results) {
     var css = results[2];
 
-    expectedCSS.toString().should.eql(css.contents.toString());
+    expectedCSS.should.eql(css.contents);
     done();
   });
 });
