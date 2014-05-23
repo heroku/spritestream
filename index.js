@@ -1,15 +1,21 @@
 var File        = require('vinyl');
 var async       = require('async');
 var concat      = require('concat-stream');
+var crypto      = require('crypto');
 var ejs         = require('ejs');
 var fs          = require('fs');
 var path        = require('path');
 var spritesmith = require('spritesmith');
 
 module.exports = function(opts, cb) {
+  opts = opts || {};
+
   if (typeof opts === 'function') {
-    cb = opts;
+    cb   = opts;
+    opts = {};
   }
+
+  opts = getOpts(opts);
 
   var legacyImages = [];
   var retinaImages = [];
@@ -51,11 +57,11 @@ module.exports = function(opts, cb) {
       getCSSFile(results.legacy.result, results.retina.result, function(err, cssFile) {
         if (err) { return cb(err); }
 
-        cb(null, {
-          legacy: results.legacy.file,
-          retina: results.retina.file,
-          css   : cssFile
-        });
+        cb(null, [
+          results.legacy.file,
+          results.retina.file,
+          cssFile
+        ]);
       });
     });
   }
@@ -75,7 +81,7 @@ module.exports = function(opts, cb) {
           height: coordinate.height,
           x: coordinate.x,
           y: coordinate.y
-        }
+        };
       });
 
       var contents = ejs.render(template.toString(), {
@@ -95,8 +101,16 @@ module.exports = function(opts, cb) {
         }
       });
 
+      var cssPath;
+
+      if (opts.digest) {
+        cssPath = opts.cssPath + '-' + digest(contents);
+      } else {
+        cssPath = opts.cssPath;
+      }
+
       var file = new File({
-        path    : 'sprites.css',
+        path    : cssPath + '.css',
         contents: new Buffer(contents)
       });
 
@@ -104,18 +118,45 @@ module.exports = function(opts, cb) {
     });
   }
 
+  function getOpts(opts) {
+    var defaultOpts = {
+      imagesPath: 'sprites',
+      cssPath   : 'sprites',
+      digest    : false
+    };
+
+    for (var key in defaultOpts) {
+      if (!opts.hasOwnProperty(key)) {
+        opts[key] = defaultOpts[key];
+      }
+    }
+
+    return opts;
+  }
+
   function getSpriteFile(result, isRetina) {
-    var name;
+    var imagePath = opts.imagesPath;
+    var digestValue, fileName, segments;
+
+    if (opts.digest) {
+      imagePath += '-' + digest(result.image);
+    }
 
     if (isRetina) {
-      name = 'sprite@2x.png';
+      imagePath += '@2x.png';
     } else {
-      name = 'sprite.png';
+      imagePath += '.png';
     }
 
     return new File({
-      path    : name,
+      path    : imagePath,
       contents: new Buffer(result.image, 'binary')
     });
+  }
+
+  function digest(contents) {
+    var hash = crypto.createHash('md5');
+    hash.update(contents);
+    return hash.digest('hex');
   }
 };
