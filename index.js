@@ -68,6 +68,7 @@ module.exports = function(opts, cb) {
 
   function getCSSFile(legacySprite, retinaSprite, cb) {
     var templatePath = path.join(__dirname, './templates/sprites.css.ejs');
+    var contents, cssPath;
 
     fs.readFile(templatePath, function(err, template) {
       if (err) { return cb(err); }
@@ -84,7 +85,7 @@ module.exports = function(opts, cb) {
         };
       });
 
-      var contents = ejs.render(template.toString(), {
+      contents = ejs.render(template.toString(), {
         legacyURL: '/sprite.png',
         retinaURL: '/sprite@2x.png',
         width : legacySprite.properties.width,
@@ -101,20 +102,16 @@ module.exports = function(opts, cb) {
         }
       });
 
-      var cssPath;
-
       if (opts.digest) {
         cssPath = opts.cssPath + '-' + digest(contents);
       } else {
         cssPath = opts.cssPath;
       }
 
-      var file = new File({
+      cb(null, new File({
         path    : cssPath + '.css',
         contents: new Buffer(contents)
-      });
-
-      cb(null, file);
+      }));
     });
   }
 
