@@ -1,0 +1,39 @@
+.icon {
+  background: url('/sprite.png') no-repeat;
+  background-size: 224px 192px;
+  display: inline-block;
+}
+
+.icon.icon-breakfast {
+  background-position: 0 0;
+  width: 128px;
+  height: 128px;
+}
+
+.icon.icon-watch {
+  background-position: -128px 0;
+  width: 96px;
+  height: 96px;
+}
+
+.icon.icon-sketchbook {
+  background-position: 0 -128px;
+  width: 64px;
+  height: 64px;
+}
+
+.icon.icon-twinkie {
+  background-position: -64px -128px;
+  width: 64px;
+  height: 64px;
+}
+
+@media (min--moz-device-pixel-ratio: 2),
+       (-o-min-device-pixel-ratio: 2/1),
+       (-webkit-min-device-pixel-ratio: 2),
+       (min-device-pixel-ratio: 2)
+{
+  .icon {
+    background: url('/sprite@2x.png') no-repeat;
+  }
+}

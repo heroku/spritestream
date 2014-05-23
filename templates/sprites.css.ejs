@@ -1,0 +1,21 @@
+.icon {
+  background: url('<%- legacyURL %>') no-repeat;
+  background-size: <%- pixels(width) %> <%- pixels(height) %>;
+  display: inline-block;
+}
+<% icons.forEach(function(icon) { %>
+.icon.icon-<%- icon.name %> {
+  background-position: <%- pixels(icon.x, '-') %> <%- pixels(icon.y, '-') %>;
+  width: <%- pixels(icon.width) %>;
+  height: <%- pixels(icon.height) %>;
+}
+<% }); %>
+@media (min--moz-device-pixel-ratio: 2),
+       (-o-min-device-pixel-ratio: 2/1),
+       (-webkit-min-device-pixel-ratio: 2),
+       (min-device-pixel-ratio: 2)
+{
+  .icon {
+    background: url('<%- retinaURL %>') no-repeat;
+  }
+}
