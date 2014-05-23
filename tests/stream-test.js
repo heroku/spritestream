@@ -1,15 +1,35 @@
-var crypto       = require('crypto');
-var es           = require('event-stream');
-var fs           = require('fs');
-var gulp         = require('gulp');
-var path         = require('path');
-var tmp          = require('tmp');
-var spritestream = require('..');
-var expectedCSS  = fs.readFileSync(path.join(__dirname, './fixtures/expected-css.css'));
+var crypto         = require('crypto');
+var es             = require('event-stream');
+var fs             = require('fs');
+var gulp           = require('gulp');
+var path           = require('path');
+var tmp            = require('tmp');
+var spritestream   = require('..');
+var expectedCSS    = fs.readFileSync(path.join(__dirname, './fixtures/expected-css.css'));
+var expectedLegacy = fs.readFileSync(path.join(__dirname, './fixtures/expected-legacy.png'));
+var expectedRetina = fs.readFileSync(path.join(__dirname, './fixtures/expected-retina.png'));
 
 require('should');
 
-it('outputs a valid CSS file', function(done) {
+it('outputs the expected non-retina file', function(done) {
+  compile(null, function(results) {
+    var image = results[0];
+
+    expectedLegacy.should.eql(image.contents);
+    done();
+  });
+});
+
+it('outputs the expected retina file', function(done) {
+  compile(null, function(results) {
+    var image = results[1];
+
+    expectedRetina.should.eql(image.contents);
+    done();
+  });
+});
+
+it('outputs the expected CSS file', function(done) {
   compile(null, function(results) {
     var css = results[2];
 
