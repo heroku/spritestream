@@ -1,15 +1,17 @@
 # spritestream
 
-spritestream is a utility for reading a pipe of Vinyl image file objects and
-turning them into a non-retina sprite file, a retina sprite file, and an
-accompanying CSS file. It assumes that for each `image.png`, there is an
-accompanying `image@2x.png`.
+spritestream reads from a stream of retina and non-retina image files and spits
+out sprite sheets and an accompanying CSS file. It is designed for use with
+[Gulp][gulp].
 
 ## Usage
 
-Pipe your source files into `spritestream`, and give it a callback. The callback
+Pipe your source files into `spritestream`, and provide a callback. The callback
 will receive either an error or an array of results with the non-retina sprite
 image, the retina sprite image, and the CSS file, in that order.
+
+spritestream assumes that for each `image.png`, there is an accompanying
+`image@2x.png` for use in the retina sprite sheet.
 
 ```javascript
 var es           = require('event-stream');
@@ -83,4 +85,5 @@ The icons used in the test suite—"Watch", "Breakfast", "Sketchbook", and
 [thenounproject.com][nounproject].
 
 [boatman]: http://www.thenounproject.com/edward
+[gulp]: https://gulpjs.org
 [nounproject]: http://www.thenounproject.com/
