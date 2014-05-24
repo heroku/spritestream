@@ -85,5 +85,5 @@ The icons used in the test suite—"Watch", "Breakfast", "Sketchbook", and
 [thenounproject.com][nounproject].
 
 [boatman]: http://www.thenounproject.com/edward
-[gulp]: https://gulpjs.org
+[gulp]: http://gulpjs.com
 [nounproject]: http://www.thenounproject.com/
