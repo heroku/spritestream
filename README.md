@@ -73,6 +73,12 @@ gulp.src('./images/**/*.png').pipe(spritestream({
 });
 ```
 
+Spritestream assumes you're using some form of serving static assets, and so the
+URLs for the above example in the generated CSS file would be as follows:
+
+- `/images/sprites-34509438543098abcde.png`
+- `/images/sprites-234098234098234908a@2x.png`
+
 ## Installation
 
 ```sh
