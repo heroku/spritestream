@@ -50,23 +50,30 @@ module.exports = function(opts, cb) {
   function compileSprites() {
     async.parallel({
       legacy: function(cb) { compileSprite(legacyImages, false, cb); },
-      retina: function(cb) { compileSprite(legacyImages, true,  cb); }
+      retina: function(cb) { compileSprite(retinaImages, true,  cb); }
     }, function(err, results) {
       if (err) { return cb(err); }
 
-      getCSSFile(results.legacy.result, results.retina.result, function(err, cssFile) {
-        if (err) { return cb(err); }
+      getCSSFile(
+        results.legacy.result,
+        results.legacy.file,
+        results.retina.result,
+        results.retina.file,
 
-        cb(null, [
-          results.legacy.file,
-          results.retina.file,
-          cssFile
-        ]);
-      });
+        function(err, cssFile) {
+          if (err) { return cb(err); }
+
+          cb(null, [
+            results.legacy.file,
+            results.retina.file,
+            cssFile
+          ]);
+        }
+      );
     });
   }
 
-  function getCSSFile(legacySprite, retinaSprite, cb) {
+  function getCSSFile(legacySprite, legacyFile, retinaSprite, retinaFile, cb) {
     var templatePath = path.join(__dirname, './templates/sprites.css.ejs');
     var contents, cssPath;
 
@@ -86,8 +93,8 @@ module.exports = function(opts, cb) {
       });
 
       contents = ejs.render(template.toString(), {
-        legacyURL: '/sprite.png',
-        retinaURL: '/sprite@2x.png',
+        legacyURL: '/' + legacyFile.path,
+        retinaURL: '/' + retinaFile.path,
         width : legacySprite.properties.width,
         height: legacySprite.properties.height,
         icons : icons,

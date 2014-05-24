@@ -1,5 +1,5 @@
 .icon {
-  background: url('/sprite.png') no-repeat;
+  background: url('/sprites.png') no-repeat;
   background-size: 224px 192px;
   display: inline-block;
 }
@@ -34,6 +34,7 @@
        (min-device-pixel-ratio: 2)
 {
   .icon {
-    background: url('/sprite@2x.png') no-repeat;
+    background: url('/sprites@2x.png') no-repeat;
+    background-size: 224px 192px;
   }
 }
