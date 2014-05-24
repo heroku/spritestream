@@ -77,7 +77,7 @@ module.exports = function(opts, cb) {
     var templatePath = path.join(__dirname, './templates/sprites.css.ejs');
     var contents, cssPath;
 
-    fs.readFile(templatePath, function(err, template) {
+    getTemplate(templatePath, function(err, template) {
       if (err) { return cb(err); }
 
       var icons = Object.keys(legacySprite.coordinates).map(function(key) {
@@ -138,6 +138,14 @@ module.exports = function(opts, cb) {
     }
 
     return opts;
+  }
+
+  function getTemplate(templatePath, cb) {
+    if (opts.template) {
+      cb(null, opts.template);
+    } else {
+      fs.readFile(templatePath, cb);
+    }
   }
 
   function getSpriteFile(result, isRetina) {

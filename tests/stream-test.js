@@ -49,7 +49,22 @@ describe('when given a custom CSS class', function() {
 
   it('uses the custom CSS class', function() {
     var expected = expectedCSS.toString().replace(/icon/g, 'sprite');
-    results[2].contents.toString().should.eql(expected)
+    results[2].contents.toString().should.eql(expected);
+  });
+});
+
+describe('when given a custom template', function() {
+  var results;
+
+  beforeEach(function(done) {
+    compile({ template: '<%= cssClass %>s: <%= icons.length %>' }, function(res) {
+      results = res;
+      done();
+    });
+  });
+
+  it('uses the custom template', function() {
+    results[2].contents.toString().should.eql('icons: 4');
   });
 });
 
