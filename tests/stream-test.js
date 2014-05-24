@@ -37,6 +37,22 @@ describe('output files', function() {
   });
 });
 
+describe('when given a custom CSS class', function() {
+  var results;
+
+  before(function(done) {
+    compile({ cssClass: 'sprite' }, function(res) {
+      results = res;
+      done();
+    });
+  });
+
+  it('uses the custom CSS class', function() {
+    var expected = expectedCSS.toString().replace(/icon/g, 'sprite');
+    results[2].contents.toString().should.eql(expected)
+  });
+});
+
 describe('when given custom path options', function() {
   var tmpPath;
 

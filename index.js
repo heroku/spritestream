@@ -93,12 +93,13 @@ module.exports = function(opts, cb) {
       });
 
       contents = ejs.render(template.toString(), {
+        cssClass : opts.cssClass,
         legacyURL: '/' + legacyFile.path,
         retinaURL: '/' + retinaFile.path,
-        width : legacySprite.properties.width,
-        height: legacySprite.properties.height,
-        icons : icons,
-        pixels: function(int, prefix) {
+        width    : legacySprite.properties.width,
+        height   : legacySprite.properties.height,
+        icons    : icons,
+        pixels   : function(int, prefix) {
           prefix = prefix || '';
 
           if (int === 0) {
@@ -126,6 +127,7 @@ module.exports = function(opts, cb) {
     var defaultOpts = {
       imagesPath: 'sprites',
       cssPath   : 'sprites',
+      cssClass  : 'icon',
       digest    : false
     };
 
