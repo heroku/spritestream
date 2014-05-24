@@ -11,74 +11,81 @@ var expectedRetina = fs.readFileSync(path.join(__dirname, './fixtures/expected-r
 
 require('should');
 
-it('outputs the expected non-retina file', function(done) {
-  compile(null, function(results) {
+describe('output files', function() {
+  var results;
+
+  before(function(done) {
+    compile(null, function(res) {
+      results = res;
+      done();
+    });
+  });
+
+  it('outputs the expected non-retina file', function() {
     var image = results[0];
-
     expectedLegacy.should.eql(image.contents);
-    done();
   });
-});
 
-it('outputs the expected retina file', function(done) {
-  compile(null, function(results) {
+  it('outputs the expected retina file', function() {
     var image = results[1];
-
     expectedRetina.should.eql(image.contents);
-    done();
   });
-});
 
-it('outputs the expected CSS file', function(done) {
-  compile(null, function(results) {
+  it('outputs the expected CSS file', function() {
     var css = results[2];
-
     expectedCSS.should.eql(css.contents);
-    done();
   });
 });
 
-it('accepts a custom images path', function(done) {
-  tmp.dir({ unsafeCleanup: true }, function(err, tmpPath) {
-    compile({ imagesPath: './custom-images/custom-sprite' }, function(results) {
-      es.readArray(results).pipe(gulp.dest(tmpPath)).on('end', function() {
-        fs.exists(path.join(tmpPath, 'custom-images/custom-sprite.png'), function(exists) {
-          exists.should.eql(true);
-          done();
-        });
+describe('when given custom path options', function() {
+  var tmpPath;
+
+  before(function(done) {
+    tmp.dir({ unsafeCleanup: true }, function(err, tmpDirPath) {
+      tmpPath = tmpDirPath;
+
+      compile({
+        imagesPath: './custom-images/custom-sprite',
+        cssPath   : './custom-stylesheets/custom-css'
+      }, function(results) {
+        es.readArray(results).pipe(gulp.dest(tmpPath)).on('end', done);
       });
     });
   });
-});
 
-it('accepts a custom css path', function(done) {
-  tmp.dir({ unsafeCleanup: true }, function(err, tmpPath) {
-    compile({ cssPath: './custom-stylesheets/custom-css' }, function(results) {
-      es.readArray(results).pipe(gulp.dest(tmpPath)).on('end', function() {
-        fs.exists(path.join(tmpPath, 'custom-stylesheets/custom-css.css'), function(exists) {
-          exists.should.eql(true);
-          done();
-        });
-      });
+  it('accepts a custom images path', function(done) {
+    fs.exists(path.join(tmpPath, 'custom-images/custom-sprite.png'), function(exists) {
+      exists.should.eql(true);
+      done();
+    });
+  });
+
+  it('accepts a custom css path', function(done) {
+    fs.exists(path.join(tmpPath, 'custom-stylesheets/custom-css.css'), function(exists) {
+      exists.should.eql(true);
+      done();
     });
   });
 });
 
 describe('when given the digest option', function() {
-  it('digests image names', function(done) {
-    compile({ digest: true }, function(results) {
-      digestValue = digest(results[0].contents);
-      results[0].path.should.eql('sprites-' + digestValue + '.png');
+  var results;
+
+  before(function(done) {
+    compile({ digest: true }, function(res) {
+      results = res;
       done();
     });
   });
 
-  it('digests CSS names', function(done) {
-    compile({ digest: true }, function(results) {
-      digestValue = digest(results[2].contents);
-      results[2].path.should.eql('sprites-' + digestValue + '.css');
-      done();
-    });
+  it('digests image names', function() {
+    digestValue = digest(results[0].contents);
+    results[0].path.should.eql('sprites-' + digestValue + '.png');
+  });
+
+  it('digests CSS names', function() {
+    digestValue = digest(results[2].contents);
+    results[2].path.should.eql('sprites-' + digestValue + '.css');
   });
 });
 
