@@ -96,8 +96,8 @@ module.exports = function(opts, cb) {
 
       contents = ejs.render(template.toString(), {
         cssClass : opts.cssClass,
-        legacyURL: '/' + legacyFile.path,
-        retinaURL: '/' + retinaFile.path,
+        legacyURL: path.join('/', legacyFile.path),
+        retinaURL: path.join('/', retinaFile.path),
         width    : legacySprite.properties.width,
         height   : legacySprite.properties.height,
         icons    : icons,
