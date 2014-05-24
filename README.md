@@ -1,5 +1,7 @@
 # spritestream
 
+[![Build Status](https://travis-ci.org/jclem/spritestream.svg?branch=master)](https://travis-ci.org/jclem/spritestream)
+
 spritestream reads from a stream of retina and non-retina image files and spits
 out sprite sheets and an accompanying CSS file. It is designed for use with
 [Gulp][gulp].
