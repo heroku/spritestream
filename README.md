@@ -28,9 +28,15 @@ gulp.src('./images/**/*.png').pipe(spritestream(function(err, results) {
 
 ## Options
 
+### `cssClass`
+
+Use a custom CSS class. By default, classes will be named like `.icon` and
+`.icon-image-name`. These can be changed to `.sprite` and `.sprite-image-name`,
+for example, by passing `sprite`.
+
 ### `digest`
 
-Append an md5 hash of the file contents to the end of its name
+Set to `true` to append an md5 hash of the file contents to the end of its name.
 
 ### `imagesPath`
 
@@ -39,8 +45,14 @@ Vinyl file objects.
 
 ### `cssPath`
 
-The path, relative to the ultimate pipe destination, to attach to the css Vinyl
+The path, relative to the ultimate pipe destination, to attach to the CSS Vinyl
 file objects.
+
+### `template`
+
+Provide a template to use other than the default one. This will be compiled with
+EJS. See the existing template in `templates/sprites.css.ejs` for an example.
+Can be a string or a Buffer.
 
 ### Example
 
@@ -52,6 +64,7 @@ This example will result in the following files:
 
 ```javascript
 gulp.src('./images/**/*.png').pipe(spritestream({
+  cssClass  : 'sprite',
   digest    : true,
   imagesPath: './images/sprites',
   cssPath   : './stylesheets/sprites-styles'
