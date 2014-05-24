@@ -1,3 +1,5 @@
+'use strict';
+
 var crypto         = require('crypto');
 var es             = require('event-stream');
 var fs             = require('fs');
@@ -56,7 +58,7 @@ describe('when given a custom CSS class', function() {
 describe('when given a custom template', function() {
   var results;
 
-  beforeEach(function(done) {
+  before(function(done) {
     compile({ template: '<%= cssClass %>s: <%= icons.length %>' }, function(res) {
       results = res;
       done();
@@ -110,12 +112,12 @@ describe('when given the digest option', function() {
   });
 
   it('digests image names', function() {
-    digestValue = digest(results[0].contents);
+    var digestValue = digest(results[0].contents);
     results[0].path.should.eql('sprites-' + digestValue + '.png');
   });
 
   it('digests CSS names', function() {
-    digestValue = digest(results[2].contents);
+    var digestValue = digest(results[2].contents);
     results[2].path.should.eql('sprites-' + digestValue + '.css');
   });
 });

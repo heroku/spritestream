@@ -1,3 +1,5 @@
+'use strict';
+
 var File        = require('vinyl');
 var async       = require('async');
 var concat      = require('concat-stream');
@@ -150,7 +152,6 @@ module.exports = function(opts, cb) {
 
   function getSpriteFile(result, isRetina) {
     var imagePath = opts.imagesPath;
-    var digestValue, fileName, segments;
 
     if (opts.digest) {
       imagePath += '-' + digest(result.image);

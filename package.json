@@ -34,5 +34,26 @@
     "mocha": "^1.19.0",
     "should": "^3.3.1",
     "tmp": "0.0.23"
+  },
+  "jshintConfig": {
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": true,
+    "globalstrict": true,
+    "quotmark": "single",
+    "strict": true,
+    "undef": true,
+    "unused": true,
+    "globals": {
+      "Buffer": false,
+      "__dirname": false,
+      "before": false,
+      "console": false,
+      "describe": false,
+      "it": false,
+      "module": false,
+      "require": false
+    }
   }
 }
